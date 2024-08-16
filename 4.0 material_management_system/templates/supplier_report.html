@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Supplier Report</h1>
+
+    <!-- Form to log a new delivery -->
+    <h2>Log New Delivery</h2>
+    <form method="POST" action="{{ url_for('supplier_report') }}" class="delivery-form">
+        <div class="form-group">
+            <label for="delivery_item_id">Item ID</label>
+            <input type="text" id="delivery_item_id" name="item_id" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="delivery_delivery_id">Delivery ID</label>
+            <input type="text" id="delivery_delivery_id" name="delivery_id" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="delivery_quality_rating">Quality Rating (1-5)</label>
+            <input type="number" id="delivery_quality_rating" name="quality_rating" class="form-control" min="1" max="5" required>
+        </div>
+        <div class="form-group">
+            <label for="delivery_timeliness_rating">Timeliness Rating (1-5)</label>
+            <input type="number" id="delivery_timeliness_rating" name="timeliness_rating" class="form-control" min="1" max="5" required>
+        </div>
+        <div class="form-group">
+            <label for="delivery_issues">Issues (if any)</label>
+            <textarea id="delivery_issues" name="issues" class="form-control"></textarea>
+        </div>
+        <div class="button-wrapper">
+            <button type="submit" class="btn btn-primary">Log Delivery</button>
+        </div>
+    </form>
+
+    <!-- Display delivery logs -->
+    <h2>Delivery Logs</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Delivery ID</th>
+                <th>Quality Rating</th>
+                <th>Timeliness Rating</th>
+                <th>Issues</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in delivery_logs %}
+                <tr>
+                    <td>{{ log.item_id }}</td>
+                    <td>{{ log.delivery_id }}</td>
+                    <td>{{ log.quality_rating }}</td>
+                    <td>{{ log.timeliness_rating }}</td>
+                    <td>{{ log.issues }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Form to mark an item as out of stock -->
+    <h2>Mark Item as Out of Stock</h2>
+    <form method="POST" action="{{ url_for('mark_out_of_stock') }}">
+        <div class="form-group">
+            <label for="out_of_stock_item_id">Item ID</label>
+            <input type="text" id="out_of_stock_item_id" name="item_id" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Mark as Out of Stock</button>
+    </form>
+
+    <!-- Display out of stock items -->
+    <h2>Out of Stock Items</h2>
+    <ul>
+        {% for item_id in out_of_stock_items %}
+            <li>{{ item_id }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

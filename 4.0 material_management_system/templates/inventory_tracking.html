@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Inventory Tracking</h1>
+
+        <!-- Inventory Tracking Content -->
+        <p>Track and manage your inventory items here. This section includes functionalities to view inventory levels, update stock, and generate reports.</p>
+
+        <!-- Inventory Tracking Form -->
+        <h2 class="mt-4">Track Inventory Movement</h2>
+        <form action="{{ url_for('inventory_tracking_page') }}" method="POST">
+            <div class="form-group">
+                <label for="item">Item Name</label>
+                <input type="text" id="item" name="item" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" name="quantity" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination</label>
+                <input type="text" id="destination" name="destination" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-control" required>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Received">Received</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Track Inventory</button>
+        </form>
+
+        <!-- Display Inventory Movements -->
+        <h2 class="mt-5">Current Inventory Movements</h2>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory in inventory_items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ inventory['item'] }}</td>
+                    <td>{{ inventory['quantity'] }}</td>
+                    <td>{{ inventory['date'] }}</td>
+                    <td>{{ inventory['destination'] }}</td>
+                    <td>{{ inventory['status'] }}</td>
+                </tr>
+                {% endfor %}
+                {% if inventory_items|length == 0 %}
+                <tr>
+                    <td colspan="6" class="text-center">No inventory data available</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

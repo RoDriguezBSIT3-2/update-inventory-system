@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Form Management</h1>
+
+        <!-- Form Management Content -->
+        <p>Manage and organize your forms efficiently. This section allows you to create new forms, edit existing ones, review their content, flag them for further attention, and return them for corrections if needed.</p>
+
+        <!-- Example: Add New Form -->
+        <h2 class="mt-4">Add New Form</h2>
+        <form action="{{ url_for('form_management_page') }}" method="POST">
+            <div class="form-group">
+                <label for="form_name">Form Name</label>
+                <input type="text" id="form_name" name="form_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="form_description">Form Description</label>
+                <textarea id="form_description" name="form_description" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Form</button>
+        </form>
+
+        <!-- Example: Review Submitted Forms -->
+        <h2 class="mt-5">Review Submitted Forms</h2>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Form Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in forms %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ form['name'] }}</td>
+                    <td>{{ form['description'] }}</td>
+                    <td>
+                        {% if form['status'] == 'Pending' %}
+                            Pending Review
+                        {% elif form['status'] == 'Flagged' %}
+                            Flagged for Correction
+                        {% elif form['status'] == 'Returned' %}
+                            Returned for Correction
+                        {% elif form['status'] == 'Approved' %}
+                            Approved
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if form['status'] == 'Pending' %}
+                            <a href="{{ url_for('review_form', form_id=form['id']) }}" class="btn btn-info btn-sm">Review</a>
+                            <a href="{{ url_for('flag_form', form_id=form['id']) }}" class="btn btn-warning btn-sm">Flag</a>
+                            <a href="{{ url_for('edit_form', form_id=form['id']) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        {% elif form['status'] == 'Flagged' %}
+                            <a href="{{ url_for('return_form', form_id=form['id']) }}" class="btn btn-danger btn-sm">Return</a>
+                        {% elif form['status'] == 'Returned' %}
+                            <span class="badge badge-danger">Returned for Correction</span>
+                        {% elif form['status'] == 'Approved' %}
+                            <span class="badge badge-success">Approved</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% if forms|length == 0 %}
+                <tr>
+                    <td colspan="5" class="text-center">No forms available</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Add Inventory</h1>
+    <form method="POST" action="{{ url_for('add_inventory') }}" class="form-horizontal">
+        <div class="form-group">
+            <label for="item">Item</label>
+            <input type="text" id="item" name="item" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="uoi">Unit of Issue (UOI)</label>
+            <input type="text" id="uoi" name="uoi" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="beginning">Beginning</label>
+            <input type="number" step="0.01" id="beginning" name="beginning" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="receive">Receive/Incoming</label>
+            <input type="number" step="0.01" id="receive" name="receive" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="sales">Sales Outgoing</label>
+            <input type="number" step="0.01" id="sales" name="sales" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="waste">Waste</label>
+            <input type="number" step="0.01" id="waste" name="waste" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="ending">Ending</label>
+            <input type="number" step="0.01" id="ending" name="ending" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Inventory</button>
+    </form>
+
+    <!-- Display saved inventory records -->
+    <h2>Inventory Records</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ITEM</th>
+                <th>Unit of Issue (UOI)</th>
+                <th>Beginning</th>
+                <th>Receive/Incoming</th>
+                <th>Sales Outgoing</th>
+                <th>Waste</th>
+                <th>Ending</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in inventory_records %}
+                <tr>
+                    <td>{{ record.item }}</td>
+                    <td>{{ record.uoi }}</td>
+                    <td>{{ record.beginning }}</td>
+                    <td>{{ record.receive }}</td>
+                    <td>{{ record.sales }}</td>
+                    <td>{{ record.waste }}</td>
+                    <td>{{ record.ending }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_inventory', index=loop.index0) }}" class="btn btn-warning">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

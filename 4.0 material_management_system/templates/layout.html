@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Management</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header text-center">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="sidebar-logo mb-3">
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="{{ url_for('analytics') }}"><i class="fas fa-chart-line"></i> Analytics</a>
+                </li>
+                <li>
+                    <a href="#inventoryMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-boxes"></i> Inventory Management</a>
+                    <div id="inventoryMenu" class="collapse">
+                        <ul class="list-unstyled">
+                            <li><a href="{{ url_for('add_inventory') }}">Add Inventory</a></li>
+                            <li><a href="{{ url_for('review_inventory') }}">Monitor Inventory</a></li>
+                            <li><a href="{{ url_for('supplier_report') }}">Supplier Report</a></li>
+                            <li><a href="{{ url_for('waste_logs') }}">Waste Logs</a></li>
+                            <li><a href="{{ url_for('generate_reports') }}">Generate Reports</a></li>
+                            <li><a href="{{ url_for('export_data') }}">Export Data</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#orderManagementMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-shopping-cart"></i> Order Management</a>
+                    <div id="orderManagementMenu" class="collapse">
+                        <ul class="list-unstyled">
+                            <li><a href="{{ url_for('order_request') }}">Order Request</a></li>
+                            <li><a href="{{ url_for('form_management_page') }}">Form Management</a></li>
+                            <li><a href="{{ url_for('inventory_tracking_page') }}">Inventory Tracking</a></li>
+                            <li><a href="{{ url_for('order_report_page') }}">Order Report</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <!-- Logout Button at the Bottom -->
+            <div class="sidebar-footer mt-auto text-center">
+                <a href="{{ url_for('logout') }}" class="btn btn-danger btn-block"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <div class="container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
